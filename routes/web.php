@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::prefix('portal')->group(function () {
-    Route::get('registro/natural', [RegistroWebController::class, 'natural'])->name('registro.natural');
-    Route::get('registro/juridica', [RegistroWebController::class, 'juridica'])->name('registro.juridica');
+    Route::get('/registro/natural', [RegistroWebController::class, 'natural'])->name('registro.natural');
+    Route::get('/registro/juridica', [RegistroWebController::class, 'juridica'])->name('registro.juridica');
 });
 require __DIR__.'/settings.php';

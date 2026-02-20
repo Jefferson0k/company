@@ -5,6 +5,6 @@ import { Head } from '@inertiajs/vue3';
 <template>
     <Head title="Registro Persona Jurídica" />
     <div>
-        <h1>Registro Persona Jurídica</h1>
+        <h1>Registro Persona ssssssssssss</h1>
     </div>
 </template>

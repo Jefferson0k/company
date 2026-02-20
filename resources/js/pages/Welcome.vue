@@ -51,8 +51,7 @@ withDefaults(
         <div
             class="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0"
         >
-
         </div>
-        
+        <h1>hola</h1>
     </div>
 </template>
