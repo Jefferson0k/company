@@ -48,9 +48,15 @@ class User extends Authenticatable implements AuditableContract, MustVerifyEmail
             'password'                => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
             'activo'                  => 'boolean',
+            'restablecimiento'        => 'integer',
         ];
     }
 
+    // Agregar método útil igual que en Cliente
+    public function estaActivo(): bool
+    {
+        return $this->activo;
+    }
     public function notificaciones()
     {
         return $this->hasMany(Notificacion::class);

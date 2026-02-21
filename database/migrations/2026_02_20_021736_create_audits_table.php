@@ -15,14 +15,14 @@ return new class extends Migration
         $table = config('audit.drivers.database.table', 'audits');
 
         Schema::connection($connection)->create($table, function (Blueprint $table) {
-
             $morphPrefix = config('audit.user.morph_prefix', 'user');
-
             $table->bigIncrements('id');
             $table->string($morphPrefix . '_type')->nullable();
-            $table->unsignedBigInteger($morphPrefix . '_id')->nullable();
+            $table->string($morphPrefix . '_id', 36)->nullable();
             $table->string('event');
-            $table->morphs('auditable');
+            $table->string('auditable_type');          // cambiado
+            $table->string('auditable_id', 36);        // cambiado
+            $table->index(['auditable_type', 'auditable_id']); // cambiado
             $table->text('old_values')->nullable();
             $table->text('new_values')->nullable();
             $table->text('url')->nullable();
@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('user_agent', 1023)->nullable();
             $table->string('tags')->nullable();
             $table->timestamps();
-
             $table->index([$morphPrefix . '_id', $morphPrefix . '_type']);
         });
     }

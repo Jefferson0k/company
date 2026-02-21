@@ -8,13 +8,8 @@ use Inertia\Response;
 
 class RegistroWebController extends Controller
 {
-    public function natural(): Response
+    public function registro(): Response
     {
-        return Inertia::render('portal/registro/Natural');
-    }
-
-    public function juridica(): Response
-    {
-        return Inertia::render('portal/registro/Juridica');
+        return Inertia::render('portal/registro/indexRegistro');
     }
 }

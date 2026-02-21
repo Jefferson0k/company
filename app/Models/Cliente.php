@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Auditable;
@@ -87,5 +88,11 @@ class Cliente extends Authenticatable implements AuditableContract, MustVerifyEm
     public function esJuridica(): bool
     {
         return $this->tipo_persona === 'juridica';
+    }
+    public function getArchivoComprobanteUrlAttribute(): ?string
+    {
+        return $this->archivo_comprobante
+            ? Storage::disk('s3')->temporaryUrl($this->archivo_comprobante, now()->addMinutes(30))
+            : null;
     }
 }

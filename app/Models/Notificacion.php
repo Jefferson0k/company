@@ -15,7 +15,7 @@ class Notificacion extends Model implements AuditableContract
     use HasAuditFields;
     use HasUuids;
     use SoftDeletes;
-
+    protected $table = 'notificaciones';
     protected $fillable = [
         'cliente_id',
         'user_id',
