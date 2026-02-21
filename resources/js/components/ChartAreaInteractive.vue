@@ -27,7 +27,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-const description = "An interactive area chart"
 
 const chartData = [
   { date: new Date("2024-04-01"), desktop: 222, mobile: 150 },

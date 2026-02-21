@@ -5,7 +5,7 @@ namespace App\Http\Requests\Portal\Boleta;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreBoletaRequest extends FormRequest
+class StoreboletaRequest extends FormRequest
 {
     public function authorize(): bool
     {
