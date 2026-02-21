@@ -1,19 +1,7 @@
-<script lang="ts">
-import { z } from "zod"
-import DragHandle from "./DragHandle.vue"
-
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-})
-</script>
-
 <script setup lang="ts">
+import { z } from "zod"
+import draggable from "vuedraggable"
+import DragHandle from "./DragHandle.vue"
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -40,7 +28,6 @@ import {
   getSortedRowModel,
   useVueTable,
 } from "@tanstack/vue-table"
-import draggable from "vuedraggable"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -62,7 +49,6 @@ import {
 } from "@/components/ui/select"
 import {
   Table,
-  TableBody,
   TableCell,
   TableHead,
   TableHeader,
@@ -74,6 +60,16 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+
+export const schema = z.object({
+  id: z.number(),
+  header: z.string(),
+  type: z.string(),
+  status: z.string(),
+  target: z.string(),
+  limit: z.string(),
+  reviewer: z.string(),
+})
 
 interface TableData {
   id: number
@@ -94,7 +90,6 @@ const columnFilters = ref<ColumnFiltersState>([])
 const columnVisibility = ref<VisibilityState>({})
 const rowSelection = ref({})
 
-// Lista local mutable para drag & drop
 const localData = ref<TableData[]>([...props.data])
 
 watch(() => props.data, (val) => {
@@ -329,7 +324,6 @@ const table = useVueTable({
             </TableRow>
           </TableHeader>
 
-          <!-- vuedraggable reemplaza DragDropProvider + DraggableRow -->
           <draggable
             v-model="localData"
             tag="tbody"
@@ -359,7 +353,6 @@ const table = useVueTable({
         </Table>
       </div>
 
-      <!-- Paginación -->
       <div class="flex items-center justify-between px-4">
         <div class="text-muted-foreground hidden flex-1 text-sm lg:flex">
           {{ table.getFilteredSelectedRowModel().rows.length }} of
