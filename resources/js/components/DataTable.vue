@@ -1,5 +1,18 @@
-<script setup lang="ts">
+<script lang="ts">
 import { z } from "zod"
+
+export const schema = z.object({
+  id: z.number(),
+  header: z.string(),
+  type: z.string(),
+  status: z.string(),
+  target: z.string(),
+  limit: z.string(),
+  reviewer: z.string(),
+})
+</script>
+
+<script setup lang="ts">
 import draggable from "vuedraggable"
 import DragHandle from "./DragHandle.vue"
 import type {
@@ -60,16 +73,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-})
 
 interface TableData {
   id: number
