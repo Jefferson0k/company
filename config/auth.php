@@ -37,15 +37,15 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'session',
+            'driver'   => 'session',
             'provider' => 'users',
         ],
+
         'cliente' => [
             'driver'   => 'session',
             'provider' => 'clientes',
         ],
     ],
-
     /*
     |--------------------------------------------------------------------------
     | User Providers

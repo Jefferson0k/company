@@ -18,22 +18,26 @@ class Boleta extends Model implements AuditableContract
 
     protected $fillable = [
         'cliente_id',
+        'codigo',
         'archivo',
         'numero_boleta',
-        'monto',
         'puntos_otorgados',
         'estado',
         'observacion',
+        'created_by',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'monto'            => 'decimal:2',
-            'puntos_otorgados' => 'integer',
-        ];
-    }
-
+    
+    // ✅ Casts correctos
+    protected $casts = [
+        'id' => 'string',
+        'cliente_id' => 'string',
+        'created_by' => 'string',
+        'puntos_otorgados' => 'decimal:2',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
+    ];
+    const UPDATED_AT = null;
     public function scopePendiente($query)
     {
         return $query->where('estado', 'pendiente');
@@ -53,14 +57,25 @@ class Boleta extends Model implements AuditableContract
     {
         return $this->belongsTo(Cliente::class);
     }
-
-    public function punto()
-    {
-        return $this->hasOne(Punto::class);
-    }
-
     public function notificaciones()
     {
         return $this->hasMany(Notificacion::class);
+    }
+    protected static function boot(){
+        parent::boot();
+        static::creating(function ($boleta) {
+            if (!$boleta->id) {
+                $boleta->id = (string) \Illuminate\Support\Str::uuid();
+            }
+            do {
+                $codigo = 'BOL-' . date('Y') . '-' . strtoupper(\Illuminate\Support\Str::random(5));
+            } while (static::where('codigo', $codigo)->exists());
+
+            $boleta->codigo    = $codigo;
+            $boleta->updated_by = null;
+        });
+
+        static::updating(function ($boleta) {
+        });
     }
 }

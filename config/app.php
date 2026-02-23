@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost:5174'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -65,8 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
-
+    'timezone' => 'America/Lima',
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration

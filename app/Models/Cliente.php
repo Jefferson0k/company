@@ -25,7 +25,8 @@ class Cliente extends Authenticatable implements AuditableContract, MustVerifyEm
     use SoftDeletes;
 
     protected $guard = 'cliente';
-
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
         'tipo_persona',
         'nombre',
@@ -40,6 +41,9 @@ class Cliente extends Authenticatable implements AuditableContract, MustVerifyEm
         'acepta_terminos',
         'archivo_comprobante',
         'estado',
+        'email_verified_at',
+        'email_verification_token',
+        'email_verification_expires_at',
     ];
 
     protected $hidden = [

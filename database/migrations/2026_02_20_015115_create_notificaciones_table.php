@@ -19,6 +19,7 @@ return new class extends Migration
                 'boleta_rechazada',
                 'puntos_acreditados',
                 'bienvenida',
+                'reenvio_verificacion',
             ]);
             $table->string('destinatario_email');
             $table->string('asunto');

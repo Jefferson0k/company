@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use App\Models\Notificacion;
 use App\Models\Punto;
 use App\Models\User;
+use App\Observers\ClienteObserver;
 use App\Policies\BoletaPolicy;
 use App\Policies\ClientePolicy;
 use App\Policies\NotificacionPolicy;
@@ -14,6 +15,7 @@ use App\Policies\PermissionPolicy;
 use App\Policies\PuntoPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
+use App\Session\ClienteSessionHandler;
 use Carbon\CarbonImmutable;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -27,7 +29,7 @@ use Illuminate\Validation\Rules\Password;
 use PDOException;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-
+use Laravel\Sanctum\Sanctum; // 👈 agregar esto
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -41,25 +43,34 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
+    public function boot(): void{
         $this->configureDefaults();
         $this->configureRateLimiting();
+        // Session handler para cliente_id
+        Sanctum::authenticateAccessTokensUsing(function ($token, $isValid) {
+        return $isValid;
+    });
+        $this->app['session']->extend('database', function ($app) {
+            $table      = $app['config']['session.table'];
+            $lifetime   = $app['config']['session.lifetime'];
+            $connection = DB::connection($app['config']['session.connection']);
+
+            return new ClienteSessionHandler($connection, $table, $lifetime, $app);
+        });
 
         try {
             DB::connection()->getPdo();
-
             if (Schema::hasTable('permissions') && Schema::hasTable('roles')) {
-                Gate::policy(Cliente::class,    ClientePolicy::class);
-                Gate::policy(Boleta::class,     BoletaPolicy::class);
-                Gate::policy(Punto::class,      PuntoPolicy::class);
-                Gate::policy(Notificacion::class, NotificacionPolicy::class);
-                Gate::policy(User::class,       UserPolicy::class);
-                Gate::policy(Permission::class, PermissionPolicy::class);
-                Gate::policy(Role::class,       RolePolicy::class);
+                Gate::policy(Cliente::class,       ClientePolicy::class);
+                Gate::policy(Boleta::class,        BoletaPolicy::class);
+                Gate::policy(Punto::class,         PuntoPolicy::class);
+                Gate::policy(Notificacion::class,  NotificacionPolicy::class);
+                Gate::policy(User::class,          UserPolicy::class);
+                Gate::policy(Permission::class,    PermissionPolicy::class);
+                Gate::policy(Role::class,          RolePolicy::class);
             }
         } catch (PDOException $e) {
-            // Silencioso — evita romper artisan commands cuando no hay BD disponible
+            //
         }
     }
 

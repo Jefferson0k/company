@@ -71,6 +71,13 @@ class StoreClienteRequest extends FormRequest
             'archivo_comprobante.max'       => 'El comprobante no debe superar los 5MB.',
             'acepta_politicas.accepted'     => 'Debes aceptar las políticas de privacidad.',
             'acepta_terminos.accepted'      => 'Debes aceptar los términos y condiciones.',
+
+            'apellidos.string' => 'Los apellidos deben ser texto válido.',
+            'nombre.string' => 'El nombre debe ser texto válido.',
+            'departamento.string' => 'El departamento debe ser texto válido.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.mixedCase' => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe incluir al menos un número.',
         ];
     }
 }

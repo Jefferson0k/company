@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Bienvenido a la campaña Atrevia!</title>
+    <title>Comprobante recibido</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -34,18 +34,19 @@
 
         .header h1 {
             color: #ffffff;
-            font-size: 22px;
-            font-weight: 700;
-            line-height: 1.4;
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
         }
 
         .header p {
             color: rgba(255,255,255,0.85);
-            font-size: 14px;
-            margin-top: 8px;
+            font-size: 15px;
+            margin-top: 10px;
         }
 
-        /* BANNER PREMIO */
+        /* BANNER */
         .prize-banner {
             background-color: #1a0033;
             padding: 20px 30px;
@@ -88,6 +89,32 @@
             color: #1a0033;
         }
 
+        /* CODIGO */
+        .codigo-box {
+            background: linear-gradient(135deg, #f3f0ff, #ede9fe);
+            border: 2px dashed #7f22fe;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .codigo-box p {
+            font-size: 13px;
+            color: #6b21a8;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .codigo-box span {
+            font-size: 26px;
+            font-weight: 800;
+            color: #7f22fe;
+            letter-spacing: 3px;
+        }
+
         /* ESTADO */
         .status-box {
             background-color: #f3f0ff;
@@ -102,6 +129,30 @@
             font-size: 14px;
             color: #4b0fa8;
             font-weight: 600;
+        }
+
+        /* INFO TABLE */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin: 20px 0;
+        }
+
+        .info-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #ede9fe;
+            color: #333;
+        }
+
+        .info-table td:first-child {
+            font-weight: 700;
+            color: #1a0033;
+            width: 40%;
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
         }
 
         /* PUNTOS */
@@ -144,7 +195,14 @@
             color: #7f22fe;
         }
 
-        /* FECHAS SORTEO */
+        .igv-note {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        /* FECHAS */
         .dates-section {
             margin: 24px 0;
         }
@@ -171,31 +229,6 @@
             font-weight: 600;
         }
 
-        /* CTA */
-        .cta {
-            text-align: center;
-            margin: 30px 0 10px;
-        }
-
-        .cta a {
-            background: linear-gradient(135deg, #7f22fe 0%, #5b0db3 100%);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        /* NOTA IGV */
-        .igv-note {
-            text-align: center;
-            font-size: 12px;
-            color: #999;
-            margin-top: 10px;
-        }
-
         /* LINKS */
         .links {
             text-align: center;
@@ -207,10 +240,6 @@
             color: #7f22fe;
             text-decoration: none;
             margin: 0 8px;
-        }
-
-        .links a:hover {
-            text-decoration: underline;
         }
 
         /* FOOTER */
@@ -238,11 +267,11 @@
         {{-- HEADER --}}
         <div class="header">
             <img src="{{ config('app.url') }}/img/logo-atrevia.webp" alt="Atrevia">
-            <h1>¡Gracias por registrarte,<br>{{ $cliente->nombre }}!</h1>
-            <p>Tu participación está en camino 🎶</p>
+            <h1>¡Recibimos tu<br>comprobante! 📄</h1>
+            <p>Lo revisaremos pronto y te notificaremos 🎶</p>
         </div>
 
-        {{-- BANNER PREMIO --}}
+        {{-- BANNER --}}
         <div class="prize-banner">
             <p>🏆 Premio de la campaña</p>
             <h2>1 entrada + <span>Meet & Greet</span> con Chayanne</h2>
@@ -254,14 +283,32 @@
             <p class="greeting">Hola, {{ $cliente->nombre }} {{ $cliente->apellidos }}</p>
 
             <p>
-                Recibimos tu registro exitosamente. Estamos revisando tu comprobante de pago
-                para acreditar tus puntos y que puedas participar en el sorteo.
+                Hemos recibido tu comprobante de pago correctamente.
+                Nuestro equipo lo revisará y acreditará tus puntos a la brevedad.
             </p>
+
+            {{-- CÓDIGO --}}
+            <div class="codigo-box">
+                <p>🔖 Tu código de seguimiento</p>
+                <span>{{ $boleta->codigo }}</span>
+            </div>
 
             {{-- ESTADO --}}
             <div class="status-box">
                 <p>⏳ Estado actual: Comprobante pendiente de revisión</p>
             </div>
+
+            {{-- DETALLE --}}
+            <table class="info-table">
+                <tr>
+                    <td>Fecha de envío</td>
+                    <td>{{ $boleta->created_at->format('d/m/Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <td>Correo registrado</td>
+                    <td>{{ $cliente->email }}</td>
+                </tr>
+            </table>
 
             {{-- PUNTOS --}}
             <div class="points-section">
@@ -302,16 +349,9 @@
             </div>
 
             <p>
-                Te notificaremos por este correo cuando tu comprobante sea aprobado
-                y tus puntos sean acreditados. ¡Mucha suerte! 🍀
+                Guarda tu código de seguimiento por si necesitas hacer algún reclamo.
+                ¡Mucha suerte! 🍀
             </p>
-
-            {{-- CTA --}}
-            <div class="cta">
-                <a href="{{ config('app.frontend_url') }}/email/verify/{{ $cliente->email_verification_token }}">
-                    Verificar mi correo
-                </a>
-            </div>
 
             {{-- LINKS --}}
             <div class="links">

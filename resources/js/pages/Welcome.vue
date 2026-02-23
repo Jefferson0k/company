@@ -13,4 +13,5 @@ withDefaults(
 
 <template>
     <Head title="Welcome"/>
+    <h1>okis</h1>
 </template>
